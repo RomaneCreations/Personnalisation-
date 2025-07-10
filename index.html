@@ -1,9 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Mon premier site GitHub Pages</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romane Créations - Commande</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#fa6464">
+  <link rel="apple-touch-icon" href="4.png">
+  <style>
+    :root {
+      --rose-clair: #ffefef;
+      --rose-vif: #fa6464;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: var(--rose-clair);
+      color: #333;
+    }
+    header {
+      background: var(--rose-vif);
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 1.5em;
+    }
+    main {
+      padding: 1em;
+      max-width: 700px;
+      margin: auto;
+    }
+    h2 {
+      color: var(--rose-vif);
+      margin-top: 1em;
+    }
+    select, input[type="text"], input[type="email"], input[type="tel"], textarea {
+      width: 100%;
+      padding: 0.6em;
+      margin-top: 0.3em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 1em;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 0.5em;
+    }
+    .color-option {
+      padding: 0.5em;
+      background: white;
+      border: 2px solid #ccc;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .color-option.selected {
+      background: var(--rose-vif);
+      color: white;
+      border-color: var(--rose-vif);
+    }
+    button {
+      width: 100%;
+      background: var(--rose-vif);
+      color: white;
+      border: none;
+      padding: 1em;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .recap, .panier {
+      background: white;
+      padding: 1em;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+    .recap p, .panier p {
+      margin: 0.5em 0;
+    }
+    .panier-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panier-item button {
+      width: auto;
+      padding: 0.3em 0.6em;
+      font-size: 0.9em;
+      margin-left: 0.5em;
+      background: #ccc;
+      color: #333;
+    }
+    footer {
+      text-align: center;
+      padding: 1em;
+      color: #666;
+      font-size: 0.9em;
+    }
+    @media (max-width: 500px) {
+      .color-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Bienvenue sur mon site !</h1>
+  <header>
+    <h1>Romane Créations</h1>
+  </header>
+  <main>
+    <!-- (Le contenu reste inchangé) -->
+  </main>
+  <footer>
+    Contact : 06.15.66.33.13 · rcreations.resine@gmail.com · @creationsromane
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+  <script>
+    // (Ton script JavaScript reste inchangé ici)
+  </script>
 </body>
 </html>
