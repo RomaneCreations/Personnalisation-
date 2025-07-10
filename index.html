@@ -1,130 +1,633 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Romane Créations - Commande</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#fa6464">
-  <link rel="apple-touch-icon" href="4.png">
-  <style>
-    :root {
-      --rose-clair: #ffefef;
-      --rose-vif: #fa6464;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Personnalisation Boucles d'Oreilles</title>
+<style>
+  /* Couleurs et styles généraux */
+  :root {
+    --rose-pale: #ffefef;
+    --rose-vif: #fa6464;
+    --rose-vif-text: #fff;
+    --texte-principal: #333;
+    --fond-blanc: #fff;
+  }
+  body {
+    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--rose-pale);
+    color: var(--texte-principal);
+    min-height: 100vh;
+    display: flex; justify-content: center; padding: 20px;
+  }
+  main {
+    max-width: 800px;
+    width: 100%;
+    background: var(--fond-blanc);
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    padding: 20px 30px 40px;
+    display: flex; flex-direction: column;
+  }
+  h1 {
+    color: var(--rose-vif);
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  header {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  .contact-info {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  .contact-info a {
+    color: var(--rose-vif);
+    text-decoration: none;
+    margin: 0 5px;
+  }
+
+  /* Résumé sélection */
+  #selection-summary {
+    background: #ffe3e3;
+    border: 2px solid var(--rose-vif);
+    border-radius: 6px;
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    min-height: 48px;
+  }
+
+  /* Sections de sélection */
+  section {
+    margin-bottom: 25px;
+  }
+  section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  /* Boutons de sélection */
+  .options-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  button.option-btn {
+    background: var(--rose-pale);
+    border: 2px solid var(--rose-vif);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-width: 48px;
+    text-align: center;
+    user-select: none;
+  }
+  button.option-btn.selected {
+    background: var(--rose-vif);
+    color: var(--rose-vif-text);
+    border-color: var(--rose-vif);
+  }
+
+  /* Couleurs - grille 5 colonnes */
+  #colors-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  #colors-list button.option-btn {
+    min-height: 36px;
+    padding: 0;
+  }
+  #colors-list button.option-btn span.color-circle {
+    display: block;
+    width: 100%;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+  }
+  #colors-list button.option-btn.selected span.color-circle {
+    border-color: var(--rose-vif);
+    box-shadow: 0 0 6px var(--rose-vif);
+  }
+  #colors-list button.option-btn span.color-label {
+    font-size: 0.75em;
+    margin-top: 3px;
+    user-select: none;
+  }
+
+  /* Bouton ajouter au panier */
+  #add-to-cart-btn {
+    background: var(--rose-vif);
+    color: var(--rose-vif-text);
+    font-weight: 700;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+  }
+  #add-to-cart-btn:hover:not(:disabled) {
+    background: #d13d3d;
+  }
+  #add-to-cart-btn:disabled {
+    background: #faa8a8;
+    cursor: not-allowed;
+  }
+
+  /* Panier */
+  #cart {
+    margin-top: 30px;
+  }
+  #cart h2 {
+    color: var(--rose-vif);
+    margin-bottom: 10px;
+  }
+  #cart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  #cart-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95em;
+  }
+  #cart-list li:last-child {
+    border-bottom: none;
+  }
+  #cart-list li button.remove-item {
+    background: transparent;
+    border: none;
+    color: var(--rose-vif);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  #cart-total {
+    font-weight: 700;
+    text-align: right;
+    margin-bottom: 15px;
+  }
+
+  /* Formulaire client */
+  form#client-form {
+    border-top: 2px solid var(--rose-vif);
+    padding-top: 20px;
+  }
+  form#client-form h2 {
+    color: var(--rose-vif);
+    margin-bottom: 15px;
+  }
+  form#client-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  form#client-form input, form#client-form textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    resize: vertical;
+  }
+  form#client-form textarea {
+    min-height: 70px;
+  }
+  form#client-form button#copy-summary-btn {
+    background: var(--rose-vif);
+    color: var(--rose-vif-text);
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease;
+  }
+  form#client-form button#copy-summary-btn:hover {
+    background: #d13d3d;
+  }
+
+  /* Confirmation copie */
+  #copy-confirmation {
+    color: green;
+    font-weight: 700;
+    margin-top: 8px;
+    text-align: center;
+    display: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    #colors-list {
+      grid-template-columns: repeat(3, 1fr);
     }
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: var(--rose-clair);
-      color: #333;
+    .options-list {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 8px;
     }
-    header {
-      background: var(--rose-vif);
-      color: white;
-      padding: 1em;
-      text-align: center;
-      font-size: 1.5em;
+    .options-list::-webkit-scrollbar {
+      height: 6px;
     }
-    main {
-      padding: 1em;
-      max-width: 700px;
-      margin: auto;
+    .options-list::-webkit-scrollbar-thumb {
+      background-color: var(--rose-vif);
+      border-radius: 3px;
     }
-    h2 {
-      color: var(--rose-vif);
-      margin-top: 1em;
-    }
-    select, input[type="text"], input[type="email"], input[type="tel"], textarea {
-      width: 100%;
-      padding: 0.6em;
-      margin-top: 0.3em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-bottom: 1em;
-    }
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-      gap: 0.5em;
-    }
-    .color-option {
-      padding: 0.5em;
-      background: white;
-      border: 2px solid #ccc;
-      text-align: center;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .color-option.selected {
-      background: var(--rose-vif);
-      color: white;
-      border-color: var(--rose-vif);
-    }
-    button {
-      width: 100%;
-      background: var(--rose-vif);
-      color: white;
-      border: none;
-      padding: 1em;
-      font-size: 1em;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .recap, .panier {
-      background: white;
-      padding: 1em;
-      border-radius: 10px;
-      margin-bottom: 1em;
-    }
-    .recap p, .panier p {
-      margin: 0.5em 0;
-    }
-    .panier-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .panier-item button {
-      width: auto;
-      padding: 0.3em 0.6em;
-      font-size: 0.9em;
-      margin-left: 0.5em;
-      background: #ccc;
-      color: #333;
-    }
-    footer {
-      text-align: center;
-      padding: 1em;
-      color: #666;
-      font-size: 0.9em;
-    }
-    @media (max-width: 500px) {
-      .color-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
+<main>
   <header>
-    <h1>Romane Créations</h1>
+    <h1>Créations Romane</h1>
+    <div class="contact-info">
+      <span>📞 06.15.66.33.13</span> |
+      <a href="mailto:rcreations.resine@gmail.com">rcreations.resine@gmail.com</a> |
+      <a href="https://instagram.com/creationsromane" target="_blank" rel="noopener">@creationsromane</a>
+    </div>
   </header>
-  <main>
-    <!-- (Le contenu reste inchangé) -->
-  </main>
-  <footer>
-    Contact : 06.15.66.33.13 · rcreations.resine@gmail.com · @creationsromane
-  </footer>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js');
+  <div id="selection-summary">Sélection : (rien pour l'instant)</div>
+
+  <!-- Modèles -->
+  <section id="models-section">
+    <label>Modèle :</label>
+    <div class="options-list" id="models-list"></div>
+  </section>
+
+  <!-- Tailles -->
+  <section id="sizes-section">
+    <label>Taille :</label>
+    <div class="options-list" id="sizes-list"></div>
+  </section>
+
+  <!-- Attaches -->
+  <section id="hooks-section">
+    <label>Attache :</label>
+    <div class="options-list" id="hooks-list"></div>
+  </section>
+
+  <!-- Couleurs -->
+  <section id="colors-section">
+    <label>Couleur :</label>
+    <div id="colors-list"></div>
+  </section>
+
+  <button id="add-to-cart-btn" disabled>Ajouter au panier</button>
+
+  <!-- Panier -->
+  <section id="cart">
+    <h2>Panier</h2>
+    <ul id="cart-list"></ul>
+    <div id="cart-total">Total : 0,00 €</div>
+  </section>
+
+  <!-- Formulaire client -->
+  <form id="client-form">
+    <h2>Coordonnées</h2>
+    <label for="client-name">Nom :</label>
+    <input type="text" id="client-name" required />
+    <label for="client-phone">Téléphone :</label>
+    <input type="tel" id="client-phone" required />
+    <label for="client-email">Email :</label>
+    <input type="email" id="client-email" required />
+    <label for="client-message">Message :</label>
+    <textarea id="client-message"></textarea>
+
+    <button type="button" id="copy-summary-btn">Copier le récapitulatif de commande</button>
+    <div id="copy-confirmation">Récapitulatif copié !</div>
+  </form>
+</main>
+
+<script>
+(() => {
+  // Données des produits
+  const productsData = {
+    models: {
+      'Agathe': ['S'],
+      'Ambre': ['S'],
+      'Céleste': ['S', 'M', 'L'],
+      'Cléo': ['S'],
+      'Emma': ['S', 'M'],
+      'Eva': ['S'],
+      'Iris': ['S'],
+      'Jade': ['S'],
+      'Julie': ['L'],
+      'Lisa': ['L'],
+      'Lou': ['S'],
+      'Lucie': ['L'],
+      'Lydia': ['S'],
+      'Maëlle': ['S'],
+      'Nina': ['S', 'M', 'L'],
+      'Sarah': ['L'],
+      'Solène': ['S'],
+      'Zoé': ['M']
+    },
+    hooks: [
+      'Crochets argent', 'Ronds argent', 'Ronds or', 'Anneaux or', 'Aucune', 'Crochets or',
+      'Cœurs or', 'Cœurs argent', 'Ronds martelés or', 'Gouttes or'
+    ],
+    prices: {
+      S: { noHook: 3.50, withHook: 4.00 },
+      M: { noHook: 4.50, withHook: 5.00 },
+      L: { noHook: 5.50, withHook: 6.00 },
+    },
+    colors: [
+      {name:'Noir', code:'#000000'},
+      {name:'Kaki', code:'#78866B'},
+      {name:'Marron', code:'#5C4033'},
+      {name:'Bleu canard', code:'#05668D'},
+      {name:'Bleu ciel', code:'#87CEEB'},
+      {name:'Bleu nuit', code:'#191970'},
+      {name:'Paillettes or', code:'#FFD700'},
+      {name:'Bleu dur', code:'#003366'},
+      {name:'Vert foncé', code:'#013220'},
+      {name:'Bordeaux', code:'#800020'},
+      {name:'Violet', code:'#8A2BE2'},
+      {name:'Doré', code:'#DAA520'},
+      {name:'Bronze', code:'#CD7F32'},
+      {name:'Rouge', code:'#FF0000'},
+      {name:'Jaune', code:'#FFFF00'},
+      {name:'Bleu gris', code:'#6699CC'},
+      {name:'Rose pâle', code:'#ffefef'},
+      {name:'Cuivre', code:'#B87333'},
+      {name:'Argent', code:'#C0C0C0'},
+      {name:'Paillettes argent', code:'#D3D3D3'},
+      {name:'Rose barbie', code:'#ff69b4'},
+      {name:'Rose foncé', code:'#d6336c'}
+    ]
+  };
+
+  // Références DOM
+  const modelsList = document.getElementById('models-list');
+  const sizesList = document.getElementById('sizes-list');
+  const hooksList = document.getElementById('hooks-list');
+  const colorsList = document.getElementById('colors-list');
+  const selectionSummary = document.getElementById('selection-summary');
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const cartList = document.getElementById('cart-list');
+  const cartTotal = document.getElementById('cart-total');
+  const copySummaryBtn = document.getElementById('copy-summary-btn');
+  const copyConfirmation = document.getElementById('copy-confirmation');
+
+  // État
+  let selectedModel = null;
+  let selectedSize = null;
+  let selectedHook = null;
+  let selectedColor = null;
+  let cart = [];
+
+  // Création options modèles
+  function createModelOptions() {
+    for (const model in productsData.models) {
+      const btn = document.createElement('button');
+      btn.classList.add('option-btn');
+      btn.textContent = model;
+      btn.dataset.model = model;
+      btn.addEventListener('click', () => {
+        selectModel(model);
       });
+      modelsList.appendChild(btn);
     }
-  </script>
-  <script>
-    // (Ton script JavaScript reste inchangé ici)
-  </script>
+  }
+  // Mise à jour tailles selon modèle choisi
+  function updateSizeOptions() {
+    sizesList.innerHTML = '';
+    if (!selectedModel) return;
+    const sizes = productsData.models[selectedModel];
+    sizes.forEach(size => {
+      const btn = document.createElement('button');
+      btn.classList.add('option-btn');
+      btn.textContent = size;
+      btn.dataset.size = size;
+      btn.addEventListener('click', () => {
+        selectSize(size);
+      });
+      sizesList.appendChild(btn);
+    });
+  }
+  // Création options attaches
+  function createHookOptions() {
+    productsData.hooks.forEach(hook => {
+      const btn = document.createElement('button');
+      btn.classList.add('option-btn');
+      btn.textContent = hook;
+      btn.dataset.hook = hook;
+      btn.addEventListener('click', () => {
+        selectHook(hook);
+      });
+      hooksList.appendChild(btn);
+    });
+  }
+  // Création options couleurs
+  function createColorOptions() {
+    productsData.colors.forEach(color => {
+      const btn = document.createElement('button');
+      btn.classList.add('option-btn');
+      btn.dataset.color = color.name;
+      btn.title = color.name;
+
+      const circle = document.createElement('span');
+      circle.classList.add('color-circle');
+      circle.style.backgroundColor = color.code;
+      btn.appendChild(circle);
+
+      const label = document.createElement('span');
+      label.classList.add('color-label');
+      label.textContent = color.name;
+      btn.appendChild(label);
+
+      btn.addEventListener('click', () => {
+        selectColor(color.name);
+      });
+
+      colorsList.appendChild(btn);
+    });
+  }
+
+  // Sélections
+  function selectModel(model) {
+    selectedModel = model;
+    // Met à jour l'état bouton sélectionné
+    updateSelectedButtons(modelsList, model, 'model');
+    // Met à jour tailles dispo
+    updateSizeOptions();
+    // Reset taille sélectionnée car modèle a changé
+    selectedSize = null;
+    updateSelectedButtons(sizesList, null, 'size');
+    // Met à jour résumé et bouton
+    updateSummary();
+    updateAddButton();
+  }
+  function selectSize(size) {
+    selectedSize = size;
+    updateSelectedButtons(sizesList, size, 'size');
+    updateSummary();
+    updateAddButton();
+  }
+  function selectHook(hook) {
+    selectedHook = hook;
+    updateSelectedButtons(hooksList, hook, 'hook');
+    updateSummary();
+    updateAddButton();
+  }
+  function selectColor(color) {
+    selectedColor = color;
+    updateSelectedButtons(colorsList, color, 'color');
+    updateSummary();
+    updateAddButton();
+  }
+  // Mise à jour visuelle boutons sélectionnés
+  function updateSelectedButtons(container, selectedValue, type) {
+    const btns = container.querySelectorAll('button.option-btn');
+    btns.forEach(btn => {
+      let val;
+      if(type === 'model') val = btn.dataset.model;
+      else if(type === 'size') val = btn.dataset.size;
+      else if(type === 'hook') val = btn.dataset.hook;
+      else if(type === 'color') val = btn.dataset.color;
+      btn.classList.toggle('selected', val === selectedValue);
+    });
+  }
+
+  // Calcul prix selon taille et attache
+  function calculatePrice() {
+    if (!selectedSize) return 0;
+    const hasHook = selectedHook && selectedHook !== 'Aucune';
+    const priceData = productsData.prices[selectedSize];
+    if (!priceData) return 0;
+    return hasHook ? priceData.withHook : priceData.noHook;
+  }
+
+  // Mise à jour résumé sélection
+  function updateSummary() {
+    if (!selectedModel || !selectedSize || !selectedHook || !selectedColor) {
+      selectionSummary.textContent = 'Sélection : (incomplète)';
+      return;
+    }
+    const price = calculatePrice().toFixed(2).replace('.', ',') + ' €';
+    selectionSummary.textContent = `Sélection : Modèle ${selectedModel}, Taille ${selectedSize}, Attache ${selectedHook}, Couleur ${selectedColor} → Prix : ${price}`;
+  }
+
+  // Activation bouton ajouter au panier
+  function updateAddButton() {
+    const canAdd = selectedModel && selectedSize && selectedHook && selectedColor;
+    addToCartBtn.disabled = !canAdd;
+  }
+
+  // Ajout au panier
+  addToCartBtn.addEventListener('click', () => {
+    if (!(selectedModel && selectedSize && selectedHook && selectedColor)) return;
+    const price = calculatePrice();
+    const item = {
+      id: Date.now(),
+      model: selectedModel,
+      size: selectedSize,
+      hook: selectedHook,
+      color: selectedColor,
+      price
+    };
+    cart.push(item);
+    updateCartUI();
+    // Reset sélection
+    selectedModel = null;
+    selectedSize = null;
+    selectedHook = null;
+    selectedColor = null;
+    updateSelectedButtons(modelsList, null, 'model');
+    updateSelectedButtons(sizesList, null, 'size');
+    updateSelectedButtons(hooksList, null, 'hook');
+    updateSelectedButtons(colorsList, null, 'color');
+    updateSummary();
+    updateAddButton();
+  });
+
+  // Mise à jour affichage panier
+  function updateCartUI() {
+    cartList.innerHTML = '';
+    if (cart.length === 0) {
+      cartList.innerHTML = '<li>Panier vide</li>';
+      cartTotal.textContent = 'Total : 0,00 €';
+      return;
+    }
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.model} (Taille ${item.size}, Attache: ${item.hook}, Couleur: ${item.color}) - ${item.price.toFixed(2).replace('.', ',')} €`;
+      // Bouton supprimer
+      const btnRemove = document.createElement('button');
+      btnRemove.classList.add('remove-item');
+      btnRemove.textContent = '×';
+      btnRemove.title = 'Supprimer cet article';
+      btnRemove.addEventListener('click', () => {
+        cart = cart.filter(i => i.id !== item.id);
+        updateCartUI();
+      });
+      li.appendChild(btnRemove);
+      cartList.appendChild(li);
+      total += item.price;
+    });
+    cartTotal.textContent = 'Total : ' + total.toFixed(2).replace('.', ',') + ' €';
+  }
+
+  // Génération récapitulatif commande
+  function generateSummaryText() {
+    if (cart.length === 0) return 'Panier vide.';
+    const name = document.getElementById('client-name').value.trim() || '[Nom non renseigné]';
+    const phone = document.getElementById('client-phone').value.trim() || '[Téléphone non renseigné]';
+    const email = document.getElementById('client-email').value.trim() || '[Email non renseigné]';
+    const message = document.getElementById('client-message').value.trim() || '[Pas de message]';
+
+    let summary = '--- Récapitulatif de commande ---\n\nArticles :\n';
+    cart.forEach((item, idx) => {
+      summary += `${idx + 1}. Modèle: ${item.model}, Taille: ${item.size}, Attache: ${item.hook}, Couleur: ${item.color}, Prix: ${item.price.toFixed(2).replace('.', ',')} €\n`;
+    });
+    const total = cart.reduce((acc, i) => acc + i.price, 0).toFixed(2).replace('.', ',');
+    summary += `\nTotal : ${total} €\n\n`;
+    summary += `Coordonnées :\nNom : ${name}\nTéléphone : ${phone}\nEmail : ${email}\nMessage : ${message}\n\n`;
+    summary += 'Contacts Créations Romane : 06.15.66.33.13 | rcreations.resine@gmail.com | @creationsromane';
+
+    return summary;
+  }
+
+  // Copier le récapitulatif
+  copySummaryBtn.addEventListener('click', () => {
+    const summaryText = generateSummaryText();
+    navigator.clipboard.writeText(summaryText).then(() => {
+      copyConfirmation.style.display = 'block';
+      setTimeout(() => copyConfirmation.style.display = 'none', 3000);
+    }).catch(() => {
+      alert('Erreur lors de la copie. Essaie avec Ctrl+C.');
+    });
+  });
+
+  // Initialisation
+  createModelOptions();
+  createHookOptions();
+  createColorOptions();
+
+  // Au départ pas de tailles affichées
+  updateSizeOptions();
+  updateSummary();
+  updateAddButton();
+  updateCartUI();
+
+})();
+</script>
 </body>
 </html>
